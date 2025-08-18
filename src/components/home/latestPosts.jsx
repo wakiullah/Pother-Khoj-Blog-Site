@@ -22,7 +22,7 @@ const posts = [
         id: 3,
         title: "Styling in React: Best Practices",
         excerpt: "How to style your React apps efficiently.",
-        image: "https://www.trolleytours.com/wp-content/uploads/2016/07/trolley-tours-of-key-west.jpg",
+        image: "https://i.ibb.co.com/k2zk7VSx/2.jpg",
         date: "2024-05-20",
     },
 ];
@@ -35,8 +35,8 @@ const LatestPosts = () => (
                 <LatestPostCard key={post.id} {...post} />
             ))}
         </div>
-        <div className={'text-center mt-8' }>
-        <Button variant={'outline'}>See more</Button>
+        <div className={'text-center mt-8'}>
+            <Button variant={'outline'}>See more</Button>
         </div>
     </section>
 );

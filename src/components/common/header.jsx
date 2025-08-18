@@ -1,3 +1,4 @@
+'use server'
 import React from 'react';
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
@@ -14,19 +15,15 @@ const Header = async () => {
                 <div className="font-bold text-2xl max-w-5xl text-gray-800">Pother Khoj</div>
                 <div>
                     <Button variant={'ghost'} className="mr-2">
-                        <Link href={'/public'}>
+                        <Link href={'/'}>
                             Home
                         </Link>
                     </Button>
                     <Button variant={'ghost'} className="mr-2">
-                        <Link href={'/about'}>
-                            About
+                        <Link href={'/posts'}>
+                            Posts
                         </Link></Button>
-                    <Button variant={'ghost'} className="mr-2">
-                        <Link href={'/contact'}>
-                            Contact
-                        </Link>
-                    </Button>
+
 
                 </div>
                 {user ? <Avatar username={user.username} role={"user"}/> :

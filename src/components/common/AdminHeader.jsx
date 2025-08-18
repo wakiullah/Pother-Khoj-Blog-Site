@@ -20,7 +20,7 @@ export default async function AdminHeader() {
                         <li><Link href="/admin/users" className="hover:underline">Users</Link></li>
                     </ul>
                 </nav>
-
+                <Avatar username={user.username} role={'admin'}/>
             </div>
         </header>
     );

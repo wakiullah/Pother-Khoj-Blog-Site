@@ -2,7 +2,7 @@
 const nextConfig = {
 
     images: {
-        domains: ['www.trolleytours.com', 'images.remotePatterns'],
+        domains: ['ibb.co.com', 'i.ibb.co.com'],
     }
 };
 

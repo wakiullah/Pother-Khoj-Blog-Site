@@ -22,11 +22,11 @@ export async function POST(req) {
             return NextResponse.json({error: "Invalid password"}, {status: 401});
         }
         const token = jwt.sign(
-            {username: user.name, email: user.email},
+            {username: user.name, email: user.email, id: user._id},
             process.env.JWT_SECRET || 'your_jwt_secret',
             {expiresIn: process.env.JWT_EXPIRATION || '7d'}
         );
-        const response = NextResponse.json({message: "Login successful"});
+        const response = NextResponse.json({message: "Login successful"},user:user);
         await cookies().set('token', token, {
             httpOnly: true,
             maxAge: 60 * 60 * 24 * 7, // 7 days,

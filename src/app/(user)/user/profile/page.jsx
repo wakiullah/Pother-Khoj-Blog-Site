@@ -1,5 +1,5 @@
-import Profile from "@/components/user/profile";
 import {userVerify} from "@/utilitis/userVerify";
+import Profile from "@/components/user/profile";
 
 
 export default async function UserProfilePage() {
@@ -10,8 +10,9 @@ export default async function UserProfilePage() {
     if (!user) return <div>Loading...</div>;
 
     return (
-        <Profile user={user}/>
-
+        <>
+            <Profile user={user}/>
+        </>
 
     );
 }

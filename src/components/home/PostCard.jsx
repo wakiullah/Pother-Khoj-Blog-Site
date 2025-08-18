@@ -4,8 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link';
 
 function PostCard({post}) {
-    const {image, title, description, author, date} = post;
-    const firse10words = description.split(' ').slice(0, 15).join(' ') + '...';
+    const {image, title, content, author, date} = post;
+    const firse10words = content.split(' ').slice(0, 15).join(' ') + '...';
     return (
         <Card className='pt-0'>
             <CardHeader className="w-full h-56 relative">
@@ -17,7 +17,7 @@ function PostCard({post}) {
                 <p className="text-sm text-gray-600">{firse10words}</p>
             </CardContent>
             <CardFooter>
-                <Link href={'/'} className="text-blue-500 hover:underline">Read More</Link>
+                <Link href={`/posts/${post._id}`} className="text-blue-500 hover:underline">Read More</Link>
             </CardFooter>
         </Card>
 

@@ -18,7 +18,7 @@ export async function middleware(request) {
     }
     const cookie = request.cookies.get('token');
     const user = await userVerify();
-    if (!cookie) {
+    if (!cookie || !user) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 

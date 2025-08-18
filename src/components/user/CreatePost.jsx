@@ -28,7 +28,7 @@ function CreatePostForm() {
                     </div>
                     <div>
                         <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                            Image Link (URL must from pexels.com or unsplash.com)
+                            Image Link URL must from pexels.com or unsplash.com
                         </label>
                         <Input
                             type="url"

@@ -8,13 +8,13 @@ import {
 } from '../ui/dropdown-menu';
 import {Button} from '../ui/button';
 
-function Profile_post({title, content}) {
-    const first15Words = content.split(' ').slice(0, 15).join(' ') + (content.split(' ').length > 15 ? '...' : '');
+function Profile_post({post}) {
+    const first15Words = post.content.split(' ').slice(0, 15).join(' ') + (post.content.split(' ').length > 15 ? '...' : '');
     return (
         <div
-            className="bg-gradient-to-r from-blue-100 to-purple-100 shadow-lg rounded-xl p-8 mb-6 border border-blue-200">
+            className="bg-gradient-to-r w-full from-blue-100 to-purple-100 shadow-lg rounded-xl p-8 mb-6 border border-blue-200">
             <div className='flex items-center justify-between mb-4'>
-                <h2 className="text-2xl font-bold mb-3 text-blue-800">{title}</h2>
+                <h2 className="text-2xl font-bold mb-3 text-blue-800">{post.title}</h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger>
                         <Button variant='guest' className="text-blue-600 hover:bg-blue-50 p-2">
