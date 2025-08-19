@@ -26,7 +26,7 @@ export async function POST(req) {
             process.env.JWT_SECRET || 'your_jwt_secret',
             {expiresIn: process.env.JWT_EXPIRATION || '7d'}
         );
-        const response = NextResponse.json({message: "Login successful"},user:user);
+        const response = NextResponse.json({message: "Login successful", user}, {status: 200});
         await cookies().set('token', token, {
             httpOnly: true,
             maxAge: 60 * 60 * 24 * 7, // 7 days,

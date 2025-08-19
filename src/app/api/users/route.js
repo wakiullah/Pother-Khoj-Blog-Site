@@ -39,3 +39,24 @@ export async function POST(req, res) {
         return NextResponse.json({error: "Internal Server Error"}, {status: 500});
     }
 }
+
+export async function PUT(req, res) {
+    await dbConnect();
+    const {id, name, email} = await req.json();
+    console.log("Updating user with ID:", id, name, email);
+
+    if (!id || !name || !email) {
+        return NextResponse.json({error: "ID, name, and email are required"}, {status: 400});
+    }
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(id, {name, email}, {new: true});
+        if (!updatedUser) {
+            return NextResponse.json({error: "User not found"}, {status: 404});
+        }
+        return NextResponse.json(updatedUser, {status: 200});
+    } catch (error) {
+        console.error("Error updating user:", error);
+        return NextResponse.json({error: "Internal Server Error"}, {status: 500});
+    }
+}

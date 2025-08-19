@@ -5,13 +5,14 @@ import PostDialog from "@/components/common/PostDialog";
 import AllProfilePosts from "@/components/common/AllProfilePosts";
 
 export default function Profile({user}) {
+    console.log("User Profile:", user);
     return (
         <div
             className="max-w-lg mx-auto mt-20 p-8 bg-white rounded-xl shadow-lg flex flex-col items-center font-sans border border-gray-200">
 
             <h2 className="text-2xl font-bold text-gray-800 mb-1">{user?.username}</h2>
             <p className="text-gray-500 text-base mb-4">{user?.email}</p>
-            <EditProfileModal name={user?.username} email={user?.email}/>
+            <EditProfileModal name={user?.username} email={user?.email} id={user?.id}/>
             <div className="flex w-full justify-around mb-6">
                 <div className="flex flex-col items-center">
                     <span className="text-lg font-semibold text-blue-600">120</span>
