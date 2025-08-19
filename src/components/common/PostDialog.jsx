@@ -13,17 +13,16 @@ import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 import {toast} from "react-toastify";
 import {useState} from "react";
-import {revalidMyPath} from "@/actions/revalidatepath";
+import {useRouter} from "next/navigation";
 
 export default function PostDialog({id}) {
     const [isOpen, setIsOpen] = useState(false);
-
+    const router = useRouter()
     const errorToast = () => toast.error("Error! Something went wrong!");
     const sucessToast = () => toast.success("post created successfully!");
 
     const createPostHandler = async (event) => {
         event.preventDefault();
-        console.log("Creating post...");
         const formData = new FormData(event.target);
         const data = {
             title: formData.get('title'),
@@ -43,7 +42,8 @@ export default function PostDialog({id}) {
 
             if (response.ok) {
                 const result = await response.json();
-                sucessToast()//close the dialog
+                router.push(`/posts/${result.post._id}`) // Redirect to the newly created post
+                sucessToast()
                 setIsOpen(false)
 
             } else {

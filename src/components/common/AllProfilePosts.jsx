@@ -6,6 +6,7 @@ export default function AllProfilePosts() {
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         const fetchPosts = async () => {
             setLoading(true);
@@ -22,11 +23,14 @@ export default function AllProfilePosts() {
                 }
                 const data = await response.json();
                 setPosts(data.posts);
+                setLoading(false);
             } catch (e) {
                 console.error('Error fetching posts:', e);
                 setError('Failed to load posts.');
+                setLoading(false);
+
             }
-            setLoading(false);
+
         };
         fetchPosts();
     }, []);

@@ -17,13 +17,13 @@ function Profile_post({post}) {
                 <h2 className="text-2xl font-bold mb-3 text-blue-800">{post.title}</h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger>
-                        <Button variant='guest' className="text-blue-600 hover:bg-blue-50 p-2">
+                        <span className="text-blue-600 hover:bg-blue-50 p-2">
                             {/* Bold colon SVG icon */}
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <circle cx="8" cy="12" r="2.2"/>
                                 <circle cx="16" cy="12" r="2.2"/>
                             </svg>
-                        </Button>
+                        </span>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-white shadow-lg rounded-lg p-4">
                         <DropdownMenuRadioGroup value={'top'}>
@@ -35,7 +35,8 @@ function Profile_post({post}) {
                 </DropdownMenu>
             </div>
             <p className="text-gray-800 mb-4">{first15Words}</p>
-            <Button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            <Button variant={'outline'}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
                 Read More
             </Button>
         </div>

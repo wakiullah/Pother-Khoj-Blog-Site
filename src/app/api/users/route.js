@@ -1,7 +1,7 @@
 import {NextResponse} from 'next/server';
 
 const {dbConnect} = require('@/lib/db');
-const User = require('@/model/User_Model');
+import User from '@/model/User_Model';
 
 export async function GET(req, res) {
     await dbConnect();
@@ -20,6 +20,11 @@ export async function POST(req, res) {
 
     const {name, email, password, confarmPassword} = await req.json();
 
+    const existingUser = await User.findOne({email});
+    // if (existingUser) {
+    //     return NextResponse.json({error: "User already exists"}, {status: 400});
+    // }
+
     if (!name || !email || !password || !confarmPassword) {
         return NextResponse.json({error: "All fields are required"}, {status: 400});
     }
@@ -27,15 +32,22 @@ export async function POST(req, res) {
     if (password !== confarmPassword) {
         return NextResponse.json({error: "Passwords do not match"}, {status: 400});
     }
+    if (password.length < 6) {
+        return NextResponse.json({error: "Password must be at least 6 characters long"}, {status: 400});
+    }
+
+    const userData = {
+        name,
+        email,
+        password,
+    }
 
     try {
-        const newUser = new User({name, email, password, confarmPassword});
+        const newUser = new User(userData);
         await newUser.save();
-        console.log('User created successfully');
-        return NextResponse.redirect('/login', {
-            status: 302,
-        })
+        return NextResponse.json({message: "Create User sucessful", redirect: '/login'}, {status: 201});
     } catch (error) {
+        console.error("Error creating user:", error);
         return NextResponse.json({error: "Internal Server Error"}, {status: 500});
     }
 }
@@ -43,7 +55,6 @@ export async function POST(req, res) {
 export async function PUT(req, res) {
     await dbConnect();
     const {id, name, email} = await req.json();
-    console.log("Updating user with ID:", id, name, email);
 
     if (!id || !name || !email) {
         return NextResponse.json({error: "ID, name, and email are required"}, {status: 400});

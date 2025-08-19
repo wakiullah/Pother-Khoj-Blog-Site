@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LikeButton from "@/components/post/likeButton";
 
 export default async function PostDetails({params}) {
     const {postid} = await params;
@@ -12,7 +13,6 @@ export default async function PostDetails({params}) {
         );
     }
     const post = await response.json();
-    console.log('post', post);
     return (
         <div className={'max-w-5xl mx-auto p-4'}>
             <div className="bg-white shadow-md rounded-lg p-6 mt-4">
@@ -24,14 +24,7 @@ export default async function PostDetails({params}) {
                 <p className="text-gray-500">Author: {post.author}</p>
                 <p className="text-gray-500">Published on: {new Date(post.createdAt).toLocaleDateString()}</p>
                 <div className={'mt-4'}>
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-4">
-                        Like {post.likes}
-                    </button>
-                    <button
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 mt-4 ml-2">
-                        Unlike
-                    </button>
+                    <LikeButton post={post}/>
                 </div>
             </div>
         </div>

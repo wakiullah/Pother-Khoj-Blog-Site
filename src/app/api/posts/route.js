@@ -6,18 +6,17 @@ import Posts from "@/model/Post_Model";
 
 
 export async function GET(req) {
+    await dbConnect();
 
     const posts = await Posts.find({}).sort({createdAt: -1})
 
     return NextResponse.json({message: "Post Fetch sucessfll", posts: posts}, {status: 200});
 }
 
-
 export async function POST(req) {
     await dbConnect();
     const authUser = await userVerify()
 
-    console.log("Authenticated User:", authUser);
     const {title, content, image, id} = await req.json();
     const data = {
         title,
@@ -38,13 +37,11 @@ export async function POST(req) {
             post: newPost,
             revalidated: true
         }, {status: 201});
-        //revalidate /user/posts path
 
 
     } catch (error) {
         console.error("Error creating post:", error);
         return NextResponse.json({error: error.message}, {status: 500});
     }
-
-
 }
+

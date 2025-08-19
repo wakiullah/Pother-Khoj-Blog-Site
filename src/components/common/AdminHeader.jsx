@@ -16,8 +16,9 @@ export default async function AdminHeader() {
                 <h1 className="text-2xl font-bold">Admin Dashboard</h1>
                 <nav>
                     <ul className="flex space-x-4">
-                        <li><Link href="/admin/posts" className="hover:underline">Posts</Link></li>
-                        <li><Link href="/admin/users" className="hover:underline">Users</Link></li>
+                        <li><Link href="/" className="hover:underline">Home</Link></li>
+                        <li><Link href="/dashboard/posts" className="hover:underline">Posts</Link></li>
+                        <li><Link href="/dashboard/users" className="hover:underline">Users</Link></li>
                     </ul>
                 </nav>
                 <Avatar username={user.username} role={'admin'}/>

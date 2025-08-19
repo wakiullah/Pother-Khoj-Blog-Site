@@ -27,7 +27,7 @@ export function Avatar({username, role}) {
                     <DropdownMenuItem
                     >
                         <Link className='hover:bg-gray-200 dark:bg-gray-700 p-1 py-2 flex items-center mb-1'
-                              href={`/${role}/profile`}> Profile</Link>
+                              href={`/user/profile`}> Profile</Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuItem>

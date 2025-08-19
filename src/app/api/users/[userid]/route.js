@@ -1,7 +1,23 @@
-export function GET(req) {
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get('userid');
-    console.log("Fetching user with ID:", userId);
+import {dbConnect} from "@/lib/db";
+import User from "@/model/User_Model";
+import {NextResponse} from "next/server";
+
+export async function GET(req) {
+    await dbConnect();
+    const url = new URL(req.url);
+    // const userId = searchParams.get('userid');
+    //get userId from url
+    const userId = url.pathname.split('/').pop();
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return NextResponse.json({error: "User not found"}, {status: 404});
+        }
+        return NextResponse.json({name: user.name, email: user.email, role: user.role, id: user._id}, {status: 200});
+    } catch (error) {
+        return NextResponse.json({error: "Internal Server Error"}, {status: 500});
+    }
 
 
 }

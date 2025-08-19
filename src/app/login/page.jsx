@@ -5,14 +5,13 @@ import {Button} from '@/components/ui/button';
 import Link from "next/link";
 import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify';
-import {useAuth} from "@/context/authContext";
 
 
 export default function LoginPage() {
     const router = useRouter();
-    const {login} = useAuth()
 
     const notify = (msg) => toast.error(msg);
+    const notifySucess = (msg) => toast.success(msg);
 
     const formSubmitHandler = async (event) => {
         event.preventDefault();
@@ -35,8 +34,12 @@ export default function LoginPage() {
             if (result.error) {
                 notify(result.error);
             } else {
-                router.push('/');
-                login(result.user,);  // Assuming login function sets user and token in context
+                notifySucess(result.message);
+                if (result.user.role === 'admin') {
+                    router.push('/dashboard');
+                } else {
+                    router.push('/');
+                }
 
 
             }

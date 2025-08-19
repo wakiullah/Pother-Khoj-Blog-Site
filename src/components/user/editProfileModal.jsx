@@ -40,13 +40,9 @@ function EditProfileModal({name, email, id}) {
             const result = await response.json();
             sucessToast();
             setIsOpen(false); // Close the dialog after successful update
-            console.log('Profile updated successfully:', result);
-            // Optionally, you can show a success message or update the UI
         } else {
             errorToast();
             const error = await response.json();
-            console.error('Error updating profile:', error);
-            // Optionally, you can show an error message
         }
 
     }

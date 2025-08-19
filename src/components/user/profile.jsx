@@ -5,7 +5,6 @@ import PostDialog from "@/components/common/PostDialog";
 import AllProfilePosts from "@/components/common/AllProfilePosts";
 
 export default function Profile({user}) {
-    console.log("User Profile:", user);
     return (
         <div
             className="max-w-lg mx-auto mt-20 p-8 bg-white rounded-xl shadow-lg flex flex-col items-center font-sans border border-gray-200">

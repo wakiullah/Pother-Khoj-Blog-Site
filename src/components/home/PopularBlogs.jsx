@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react'
+import React, { Suspense } from 'react'
 import PostCard from './PostCard'
 
 async function PopularBlogs() {
@@ -7,7 +7,7 @@ async function PopularBlogs() {
         cache: "no-store",
 
     });
-    console.log('res ', res);
+    
     if (res.ok) {
         posts = await res.json();
     } else {
@@ -23,8 +23,8 @@ async function PopularBlogs() {
             <Suspense fallback={<div>Loading...</div>}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
                     {posts.posts.map((post, index) => (
-                            <PostCard key={index} post={post}/>
-                        )
+                        <PostCard key={index} post={post} />
+                    )
                     )}
                 </div>
             </Suspense>

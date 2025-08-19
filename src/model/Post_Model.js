@@ -37,6 +37,14 @@ const PostSchema = new mongoose.Schema({
         type: String,
         enum: ['pending', 'published'],
         default: 'pending'
+    },
+    tags: {
+        type: [String],
+        default: ['uncategorized']
+    },
+    liked: {
+        type: [String],
+        default: []
     }
 })
 
