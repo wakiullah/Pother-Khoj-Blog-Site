@@ -24,7 +24,7 @@ function Profile_post({ post }) {
                 const data = await response.json();
                 if (data.message) {
                     successToast()
-                    router.prefetch()
+                    router.push(`/`)
                 } else {
                     errorToast()
                     console.log(data.error)
@@ -45,11 +45,14 @@ function Profile_post({ post }) {
                     <MdDelete onClick={() => postDeleteHandler('delete')} className="text-red-500 w-full h-auto cursor-pointer" />
                 </div>
             </div>
-            <p className="text-gray-800 mb-4">{first15Words}</p>
-            <Button variant={'outline'}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                <Link href={`/posts/${post._id}`}>Read More</Link>
-            </Button>
+            <p className="text-gray-800 mb-4 overflow-hidden">{first15Words}</p>
+            <div className='flex justify-between'>
+                <Button variant={'outline'}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                    <Link href={`/posts/${post._id}`}>Read More</Link>
+                </Button>
+                <p className="text-gray-500 text-sm mt-2">{post.statue}</p>
+            </div>
         </div>
     )
 }

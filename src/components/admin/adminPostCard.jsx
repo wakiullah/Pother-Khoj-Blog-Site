@@ -1,38 +1,48 @@
 'use client'
-import {Button} from "@/components/ui/button";
-import {getDate} from "@/utilitis/getDate";
+import { Button } from "@/components/ui/button";
+import { getDate } from "@/utilitis/getDate";
 import Image from "next/image";
-import {sliceContent} from "@/utilitis/sliceContent";
-import {useRouter} from "next/navigation";
-import {useState} from "react";
+import { sliceContent } from "@/utilitis/sliceContent";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { apiRequest } from "@/utils/api";
+import { showSuccess, showError } from "@/utils/toast";
 
-export default function AdminPostCard({post, onDelete, onEdit}) {
-    const {date} = getDate(post.createdAt)
+export default function AdminPostCard({ post }) {
+    const { date } = getDate(post.createdAt)
     const slicedContent = sliceContent(post.content, 15);
     const router = useRouter();
     const [clicked, setClicked] = useState(false);
 
     const postAppreveHandler = async () => {
         setClicked(true);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: post._id,
-                    statue: post.statue === "Approved" ? 'Pending' : 'Approved'
-                }),
-            }
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: post._id,
+                statue: post.statue === "approved" ? 'pending' : 'approved'
+            }),
+        }
         );
         if (response.ok) {
             const data = await response.json();
-            console.log("Post approved successfully:", data);
             router.refresh()
             setClicked(false);
         } else {
             console.error("Failed to approve post");
             setClicked(false);
+        }
+    }
+    const onDelete = async () => {
+        const deleteData = await apiRequest(`/posts/${post._id}`, 'DELETE')
+        if (deleteData.message) {
+            showSuccess('Post Deleted!')
+            router.refresh()
+        } else {
+            showError('Post delete faild!')
         }
     }
 
@@ -50,16 +60,16 @@ export default function AdminPostCard({post, onDelete, onEdit}) {
                             height={300}
                         />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 overflow-hidden">
                         <div className="flex justify-between items-start">
-                            <div>
+                            <div className="overflow-hidden">
                                 <h3 className="text-lg font-semibold text-gray-800">{post?.title || "Untitled Post"}</h3>
                                 <p className="text-sm text-gray-500 mt-1">{post?.author || "Unknown Author"} • {date || "Unknown date"}</p>
                             </div>
                             <span
-                                className={`${post.statue === 'Pending' ? 'bg-yellow-300' : 'bg-green-300'} inline-flex items-center px-3 py-1 rounded-full text-xs font-medium `}>
-                                    {post.statue}
-                                </span>
+                                className={`${post.statue === 'pending' ? 'bg-yellow-300' : 'bg-green-300'} inline-flex items-center px-3 py-1 rounded-full text-xs font-medium min-w-10`}>
+                                {post.statue}
+                            </span>
                         </div>
                         <p className="text-gray-600 mt-2">{slicedContent || "No description available."}</p>
                         <div className="flex flex-wrap gap-2 mt-4">
@@ -76,8 +86,9 @@ export default function AdminPostCard({post, onDelete, onEdit}) {
 
                 </div>
                 <div className="flex justify-end mt-4 space-x-3">
-                    <Button disabled={clicked} onClick={postAppreveHandler}
-                            variant={'outline'}>Make {post.statue === "Approved" ? 'Pending' : 'Approved'}</Button>
+                    <Button className='cursor-pointer' disabled={clicked} onClick={postAppreveHandler}
+                        variant={'outline'}>Make {post.statue === "Approved" ? 'Pending' : 'Approved'}</Button>
+                    <Button className='cursor-pointer' onClick={() => onDelete(post._id)} variant={'destructive'}>Delete</Button>
                 </div>
             </div>
         </div>

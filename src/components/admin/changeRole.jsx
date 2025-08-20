@@ -1,33 +1,46 @@
 'use client';
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {useState} from "react";
-import {useRouter} from "next/navigation";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { showSuccess } from "@/utils/toast";
+import { apiRequest } from "@/utils/api";
 
-export default function ChangeRole({user}) {
+export default function ChangeRole({ user }) {
     const [role, setRole] = useState(user.role);
     const router = useRouter();
 
-    const handleRoleChange = async (newRole) => {
-        setRole(newRole);
-        try {
-            const response = await fetch(`/api/users/`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({role: newRole, id: user._id}),
-            });
-            if (!response.ok) {
-                throw new Error('Failed to update role');
+    const handleRoleChange = async (value) => {
+        if (value === 'delete') {
+            const res = await apiRequest(`/users/${user._id}`, 'DELETE')
+            console.log(res)
+            if (res.message) {
+                showSuccess("user deleted!")
+                router.refresh();
             }
+            return;
+        } else {
+            setRole(value);
+            try {
+                const response = await fetch(`/api/users/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ role: newRole, id: user._id }),
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to update role');
+                }
 
-            const data = await response.json();
-            router.refresh()
+                const data = await response.json();
+                router.refresh()
 
 
-        } catch (error) {
-            console.error('Error updating role:', error);
+            } catch (error) {
+                console.error('Error updating role:', error);
+            }
         }
+
     }
 
     return (
@@ -38,7 +51,9 @@ export default function ChangeRole({user}) {
             <SelectContent>
                 {user.role !== 'admin' ? <SelectItem value="admin">Make Admin</SelectItem> :
                     <SelectItem value="user">Make User</SelectItem>}
+                <SelectItem value="delete">Delete User</SelectItem>
             </SelectContent>
+
         </Select>
     )
 }

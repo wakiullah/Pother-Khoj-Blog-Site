@@ -1,5 +1,5 @@
 'use client'
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogClose,
@@ -9,13 +9,14 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
-import {toast} from "react-toastify";
-import {useState} from "react";
-import {useRouter} from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { apiRequest } from "@/utils/api";
 
-export default function PostDialog({id}) {
+export default function PostDialog({ id }) {
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter()
     const errorToast = () => toast.error("Error! Something went wrong!");
@@ -32,24 +33,13 @@ export default function PostDialog({id}) {
         };
 
         try {
-            const response = await fetch('/api/posts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                router.push(`/posts/${result.post._id}`) // Redirect to the newly created post
+            const postdata = await apiRequest('/posts', "POST", data)
+            console.log(postdata);
+            if (postdata.message) {
                 sucessToast()
-                setIsOpen(false)
-
-            } else {
-                errorToast()
-
+                router.push(`/posts/${postdata.post._id}`)
             }
+
 
         } catch (error) {
             console.error('Error creating post:', error);
@@ -58,7 +48,7 @@ export default function PostDialog({id}) {
     }
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={isOpen} onOpenChange={setIsOpen} className="overflow-scroll">
             <DialogTrigger asChild>
                 <Button variant="outline">Create Post</Button>
             </DialogTrigger>
@@ -70,15 +60,15 @@ export default function PostDialog({id}) {
                     {/* form fields here */}
                     <div>
                         <label htmlFor="title">Title</label>
-                        <Input type="text" id="title" name="title" required/>
+                        <Input type="text" id="title" name="title" required />
                     </div>
                     <div>
                         <label htmlFor="image">Image Link (URL must imgbb.com)</label>
-                        <Input type="url" id="image" name="image" required/>
+                        <Input type="url" id="image" name="image" required />
                     </div>
                     <div>
                         <label htmlFor="content">Content</label>
-                        <Textarea id="content" name="content" rows="4" required/>
+                        <Textarea id="content" name="content" rows="4" required />
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
