@@ -1,13 +1,16 @@
 'use client';
-import {useState} from "react";
+import { useState } from "react";
+import getCurrentUser from "@/utilitis/getCurrentUser";
 
-export default function LikeButton({post}) {
+export default function LikeButton({ post }) {
     const [likes, setLikes] = useState(post.likes || 0);
     const [isLiking, setIsLiking] = useState(false);
     const [liked, setLiked] = useState(post.liked.includes(post.author));
+    console.log(liked, post.liked, post.author, post.likes);
 
     async function postLikeHandler() {
         setIsLiking(true);
+        const currentUser = await getCurrentUser();
         setLikes(likes + (liked ? -1 : 1)); // Optimistically update likes count
         setLiked(!liked); // Toggle liked state
 
@@ -17,7 +20,7 @@ export default function LikeButton({post}) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({userId: post.author, isAlreadyLiked: liked}), // Pass actual userId
+                body: JSON.stringify({ userId: post.author, isAlreadyLiked: liked }), // Pass actual userId
             });
             const data = await response.json();
             if (response.ok) {

@@ -5,6 +5,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import ChangeRole from "@/components/admin/changeRole";
 
 export default function SingleUserList({user, index}) {
     return (
@@ -26,15 +27,7 @@ export default function SingleUserList({user, index}) {
                         </span>
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <Select>
-                    <SelectTrigger className="w-[150px]">
-                        <SelectValue placeholder="Change Role"/>
-                    </SelectTrigger>
-                    <SelectContent>
-                        {user.role !== 'admin' ? <SelectItem value="light">Make Admin</SelectItem> :
-                            <SelectItem value="light">Make User</SelectItem>}
-                    </SelectContent>
-                </Select>
+                <ChangeRole user={user}/>
             </td>
 
         </tr>

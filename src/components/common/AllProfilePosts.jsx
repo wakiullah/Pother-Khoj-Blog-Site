@@ -1,5 +1,5 @@
 'use client';
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Profile_post from "@/components/user/profile_post";
 
 export default function AllProfilePosts() {
@@ -12,7 +12,7 @@ export default function AllProfilePosts() {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch('/api/posts', {
+                const response = await fetch('/api/posts/profile', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -41,13 +41,13 @@ export default function AllProfilePosts() {
     if (loading) {
         return <div className="text-gray-500">Loading posts...</div>;
     }
-    if (!posts && !loading) {
+    if (posts.length === 0 && !loading) {
         return <div className="text-gray-500">No posts available.</div>;
     }
     return (
         <div className=" w-full">
             {posts.map((post) => (
-                <Profile_post key={post._id} post={post}/>
+                <Profile_post key={post._id} post={post} />
             ))}
         </div>
     );

@@ -1,43 +1,54 @@
-import {DropdownMenu} from '@radix-ui/react-dropdown-menu';
-import {
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-    DropdownMenuTrigger
-} from '../ui/dropdown-menu';
-import {Button} from '../ui/button';
+'use client'
+import { MdDelete } from 'react-icons/md';
+import { Button } from '../ui/button';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-function Profile_post({post}) {
+
+function Profile_post({ post }) {
+    const router = useRouter()
     const first15Words = post.content.split(' ').slice(0, 15).join(' ') + (post.content.split(' ').length > 15 ? '...' : '');
+    const successToast = () => toast.success('Post Deleted')
+    const errorToast = () => toast.error('Post Delete failed!')
+
+    const postDeleteHandler = async (e) => {
+        if (e === 'delete') {
+
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`, {
+                    method: 'DELETE',
+                    body: JSON.stringify({ id: post._id, author: post.author })
+                });
+
+                const data = await response.json();
+                if (data.message) {
+                    successToast()
+                    router.prefetch()
+                } else {
+                    errorToast()
+                    console.log(data.error)
+                }
+
+            } catch (err) {
+                console.log(err)
+            }
+        }
+    }
+
     return (
         <div
             className="bg-gradient-to-r w-full from-blue-100 to-purple-100 shadow-lg rounded-xl p-8 mb-6 border border-blue-200">
             <div className='flex items-center justify-between mb-4'>
                 <h2 className="text-2xl font-bold mb-3 text-blue-800">{post.title}</h2>
-                <DropdownMenu>
-                    <DropdownMenuTrigger>
-                        <span className="text-blue-600 hover:bg-blue-50 p-2">
-                            {/* Bold colon SVG icon */}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <circle cx="8" cy="12" r="2.2"/>
-                                <circle cx="16" cy="12" r="2.2"/>
-                            </svg>
-                        </span>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-white shadow-lg rounded-lg p-4">
-                        <DropdownMenuRadioGroup value={'top'}>
-                            <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-                        </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className='min-w-5 h-5'>
+                    <MdDelete onClick={() => postDeleteHandler('delete')} className="text-red-500 w-full h-auto cursor-pointer" />
+                </div>
             </div>
             <p className="text-gray-800 mb-4">{first15Words}</p>
             <Button variant={'outline'}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                Read More
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                <Link href={`/posts/${post._id}`}>Read More</Link>
             </Button>
         </div>
     )

@@ -1,11 +1,41 @@
+'use client'
 import {Button} from "@/components/ui/button";
 import {getDate} from "@/utilitis/getDate";
 import Image from "next/image";
 import {sliceContent} from "@/utilitis/sliceContent";
+import {useRouter} from "next/navigation";
+import {useState} from "react";
 
 export default function AdminPostCard({post, onDelete, onEdit}) {
     const {date} = getDate(post.createdAt)
     const slicedContent = sliceContent(post.content, 15);
+    const router = useRouter();
+    const [clicked, setClicked] = useState(false);
+
+    const postAppreveHandler = async () => {
+        setClicked(true);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: post._id,
+                    statue: post.statue === "Approved" ? 'Pending' : 'Approved'
+                }),
+            }
+        );
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Post approved successfully:", data);
+            router.refresh()
+            setClicked(false);
+        } else {
+            console.error("Failed to approve post");
+            setClicked(false);
+        }
+    }
+
     return (
         <div
             className="bg-white rounded-lg shadow overflow-hidden border border-gray-100 transition-all hover:shadow-md">
@@ -27,8 +57,8 @@ export default function AdminPostCard({post, onDelete, onEdit}) {
                                 <p className="text-sm text-gray-500 mt-1">{post?.author || "Unknown Author"} • {date || "Unknown date"}</p>
                             </div>
                             <span
-                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium `}>
-                                    Pending
+                                className={`${post.statue === 'Pending' ? 'bg-yellow-300' : 'bg-green-300'} inline-flex items-center px-3 py-1 rounded-full text-xs font-medium `}>
+                                    {post.statue}
                                 </span>
                         </div>
                         <p className="text-gray-600 mt-2">{slicedContent || "No description available."}</p>
@@ -46,7 +76,8 @@ export default function AdminPostCard({post, onDelete, onEdit}) {
 
                 </div>
                 <div className="flex justify-end mt-4 space-x-3">
-                    <Button variant={'outline'}>Make Approved</Button>
+                    <Button disabled={clicked} onClick={postAppreveHandler}
+                            variant={'outline'}>Make {post.statue === "Approved" ? 'Pending' : 'Approved'}</Button>
                 </div>
             </div>
         </div>

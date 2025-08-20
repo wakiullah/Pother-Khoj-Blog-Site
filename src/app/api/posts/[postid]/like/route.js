@@ -3,7 +3,6 @@ import Posts from '@/model/Post_Model';
 
 export async function POST(req, {params}) {
     const {userId, isAlreadyLiked} = await req.json();
-    console.log('postId', userId);
     if (!userId) {
         return NextResponse.json({error: "Missing userId"}, {status: 400});
     }

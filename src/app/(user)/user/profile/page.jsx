@@ -11,7 +11,7 @@ export default async function UserProfilePage() {
 
     return (
         <>
-            <Profile user={user}/>
+            <Profile userDetail={user}/>
         </>
 
     );

@@ -14,11 +14,13 @@ import {Label} from '../ui/label'
 import {Input} from '../ui/input'
 import {toast} from "react-toastify";
 import {useState} from "react";
+import {useRouter} from "next/navigation";
 
 function EditProfileModal({name, email, id}) {
     const sucessToast = () => toast.success("Profile updated!");
     const errorToast = () => toast.error("Something went wrong!");
     const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -29,7 +31,7 @@ function EditProfileModal({name, email, id}) {
             id
         };
         const response = await fetch('/api/users', {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -39,7 +41,8 @@ function EditProfileModal({name, email, id}) {
         if (response.ok) {
             const result = await response.json();
             sucessToast();
-            setIsOpen(false); // Close the dialog after successful update
+            setIsOpen(false);
+            router.refresh()
         } else {
             errorToast();
             const error = await response.json();

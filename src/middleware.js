@@ -1,8 +1,6 @@
 import {userVerify} from "@/utilitis/userVerify";
 
-const jwt = require('jsonwebtoken');
 const {NextResponse} = require('next/server');
-const jose = require('jose')
 
 export async function middleware(request) {
     const {pathname} = new URL(request.url);
