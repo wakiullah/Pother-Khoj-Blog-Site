@@ -32,7 +32,8 @@ export default function PostDialog({ id, post = {}, method = '' }) {
             title: formData.get('title'),
             image: formData.get('image'),
             content: formData.get('content'),
-            id: id, // Assuming you want to associate the post with a user ID
+            tags: formData.get('tag'),
+            id: id,
         };
 
         try {
@@ -59,7 +60,7 @@ export default function PostDialog({ id, post = {}, method = '' }) {
     }
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen} className="overflow-scroll">
+        <Dialog open={isOpen} onOpenChange={setIsOpen} className="overflow-scroll max-w-3/4">
             <DialogTrigger asChild>
                 {method === 'PATCH' ? <CiEdit className="text-blue-500 w-full h-auto cursor-pointer mt-1" /> : <Button variant="outline">Create Post</Button>}
             </DialogTrigger>
@@ -74,12 +75,16 @@ export default function PostDialog({ id, post = {}, method = '' }) {
                         <Input defaultValue={post?.title} type="text" id="title" name="title" required />
                     </div>
                     <div>
-                        <label htmlFor="image">Image Link (URL must imgbb.com)</label>
+                        <label htmlFor="image">Image Link (URL must imgbb.com html view)</label>
                         <Input defaultValue={post?.image} type="url" id="image" name="image" required />
                     </div>
                     <div>
+                        <label htmlFor="tag">Tag (only one word)</label>
+                        <Input defaultValue={post?.tags} type="text" id="tag" name="tag" />
+                    </div>
+                    <div>
                         <label htmlFor="content">Content</label>
-                        <Textarea defaultValue={post?.content} id="content" name="content" rows="4" required />
+                        <Textarea defaultValue={post?.content} id="content" name="content" rows="4" required className={'max-h-32'}/>
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>

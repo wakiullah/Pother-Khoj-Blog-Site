@@ -87,7 +87,7 @@ export default function AdminPostCard({ post }) {
                 </div>
                 <div className="flex justify-end mt-4 space-x-3">
                     <Button className='cursor-pointer' disabled={clicked} onClick={postAppreveHandler}
-                        variant={'outline'}>Make {post.statue === "Approved" ? 'Pending' : 'Approved'}</Button>
+                        variant={'outline'}>Make {post.statue === "approved" ? 'Pending' : 'Approved'}</Button>
                     <Button className='cursor-pointer' onClick={() => onDelete(post._id)} variant={'destructive'}>Delete</Button>
                 </div>
             </div>

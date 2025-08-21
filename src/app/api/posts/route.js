@@ -17,7 +17,7 @@ export async function POST(req) {
     await dbConnect();
     const authUser = await userVerify()
 
-    const { title, content, image, id } = await req.json();
+    const { title, content, image, id, tags } = await req.json();
     const data = {
         title,
         content,
@@ -25,6 +25,7 @@ export async function POST(req) {
         createdAt: new Date(),
         author: id,
         likes: 0,
+        tags
 
     }
 

@@ -1,9 +1,10 @@
+import Link from "next/link";
 import React from "react";
 
-export default function HeroCard({ image, tags, title, className = "" }) {
+export default function HeroCard({ image, tags, title, className = "", _id }) {
     console.log(tags)
     return (
-        <div className={`relative rounded overflow-hidden group ${className}`}>
+        <Link href={`/posts/${_id}`} className={`relative rounded overflow-hidden group ${className}`}>
             <img
                 src={image}
                 alt={title}
@@ -25,6 +26,6 @@ export default function HeroCard({ image, tags, title, className = "" }) {
                     {title}
                 </h2>
             </div>
-        </div>
+        </Link>
     );
 }

@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { sliceContent } from "@/utilitis/sliceContent";
+import Link from "next/link";
 
-function LatestPostCard({ image, category, title, author, date, content }) {
+
+function LatestPostCard({ image, category, title, author, date, content, _id }) {
     const slicedContent = sliceContent(content)
 
     return (
@@ -31,8 +33,7 @@ function LatestPostCard({ image, category, title, author, date, content }) {
                 </div>
                 <div>
                     <Button variant="outline">
-                        Read More
-                    </Button>
+                        <Link href={`/posts/${_id}`}>Read More</Link>                    </Button>
                 </div>
             </CardContent>
         </Card>
