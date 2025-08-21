@@ -3,7 +3,9 @@ import { MdDelete } from 'react-icons/md';
 import { Button } from '../ui/button';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+
 import Link from 'next/link';
+import PostDialog from '../common/PostDialog';
 
 
 function Profile_post({ post }) {
@@ -43,6 +45,7 @@ function Profile_post({ post }) {
                 <h2 className="text-2xl font-bold mb-3 text-blue-800">{post.title}</h2>
                 <div className='min-w-5 h-5'>
                     <MdDelete onClick={() => postDeleteHandler('delete')} className="text-red-500 w-full h-auto cursor-pointer" />
+                    <PostDialog id={post._id} post={post} method={'PATCH'} />
                 </div>
             </div>
             <p className="text-gray-800 mb-4 overflow-hidden">{first15Words}</p>

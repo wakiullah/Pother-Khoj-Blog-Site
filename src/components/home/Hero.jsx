@@ -1,3 +1,4 @@
+import { apiRequest } from "@/utils/api";
 import HeroCard from "./HeroCard";
 
 const cards = [
@@ -33,23 +34,25 @@ const cards = [
     },
 ];
 
-export default function Hero() {
+export default async function Hero() {
+
+    const data = await apiRequest('/posts/hero')
     return (
         <section className="px-4 py-8 w-full mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-6">
                 {/* Left column */}
                 <div className="flex flex-col gap-6 md:col-span-1 md:row-span-2">
-                    <HeroCard {...cards[0]} className="h-48 md:h-full" />
-                    <HeroCard {...cards[2]} className="h-48 md:h-full" />
+                    <HeroCard {...data[0]} className="h-48 md:h-full" />
+                    <HeroCard {...data[2]} className="h-48 md:h-full" />
                 </div>
                 {/* Center big card */}
                 <div className="md:col-span-2 md:row-span-2">
-                    <HeroCard {...cards[1]} className="h-48 md:h-full" />
+                    <HeroCard {...data[1]} className="h-48 md:h-full" />
                 </div>
                 {/* Right column */}
                 <div className="flex flex-col gap-6 md:col-span-1 md:row-span-2">
-                    <HeroCard {...cards[3]} className="h-48 md:h-full" />
-                    <HeroCard {...cards[4]} className="h-48 md:h-full" />
+                    <HeroCard {...data[3]} className="h-48 md:h-full" />
+                    <HeroCard {...data[4]} className="h-48 md:h-full" />
                 </div>
             </div>
         </section>

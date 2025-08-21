@@ -47,6 +47,8 @@ export async function DELETE(req) {
     const url = new URL(req.url);
     const userId = url.pathname.split('/').pop();
 
+    if(userId )
+
     try {
         const deletedUser = await User.findByIdAndDelete(userId);
         if (!deletedUser) {

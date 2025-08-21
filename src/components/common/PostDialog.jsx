@@ -9,14 +9,17 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { CiEdit } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/api";
+import { showSuccess } from "@/utils/toast";
 
-export default function PostDialog({ id }) {
+export default function PostDialog({ id, post = {}, method = '' }) {
+    console.log(method)
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter()
     const errorToast = () => toast.error("Error! Something went wrong!");
@@ -33,13 +36,21 @@ export default function PostDialog({ id }) {
         };
 
         try {
-            const postdata = await apiRequest('/posts', "POST", data)
-            console.log(postdata);
-            if (postdata.message) {
-                sucessToast()
-                router.push(`/posts/${postdata.post._id}`)
-            }
 
+            if (method === "PATCH") {
+                const res = await apiRequest('/posts', method, data)
+                if (res.message) {
+                    showSuccess("Post Updated")
+                    router.push(`/posts/${res.post._id}`)
+                }
+            } else {
+                const postdata = await apiRequest('/posts', "POST", data)
+                console.log(postdata);
+                if (postdata.message) {
+                    sucessToast()
+                    router.push(`/posts/${postdata.post._id}`)
+                }
+            }
 
         } catch (error) {
             console.error('Error creating post:', error);
@@ -50,7 +61,7 @@ export default function PostDialog({ id }) {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen} className="overflow-scroll">
             <DialogTrigger asChild>
-                <Button variant="outline">Create Post</Button>
+                {method === 'PATCH' ? <CiEdit className="text-blue-500 w-full h-auto cursor-pointer mt-1" /> : <Button variant="outline">Create Post</Button>}
             </DialogTrigger>
             <DialogContent className="max-w-4xl">
                 <DialogHeader>
@@ -60,21 +71,21 @@ export default function PostDialog({ id }) {
                     {/* form fields here */}
                     <div>
                         <label htmlFor="title">Title</label>
-                        <Input type="text" id="title" name="title" required />
+                        <Input defaultValue={post?.title} type="text" id="title" name="title" required />
                     </div>
                     <div>
                         <label htmlFor="image">Image Link (URL must imgbb.com)</label>
-                        <Input type="url" id="image" name="image" required />
+                        <Input defaultValue={post?.image} type="url" id="image" name="image" required />
                     </div>
                     <div>
                         <label htmlFor="content">Content</label>
-                        <Textarea id="content" name="content" rows="4" required />
+                        <Textarea defaultValue={post?.content} id="content" name="content" rows="4" required />
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
                             <Button variant="outline" type="button">Cancel</Button>
                         </DialogClose>
-                        <Button type="submit">Save changes</Button>
+                        <Button type="submit">{method === 'PATCH' ? "Update Post" : "Create Post"}</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

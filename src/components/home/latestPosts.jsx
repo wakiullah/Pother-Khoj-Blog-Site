@@ -1,6 +1,7 @@
 import React from "react";
 import LatestPostCard from "./LatestPostCard";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { apiRequest } from "@/utils/api";
 
 // Example data, replace with your actual data source or props
 const posts = [
@@ -27,18 +28,23 @@ const posts = [
     },
 ];
 
-const LatestPosts = () => (
-    <section className="py-8">
-        <h2 className="text-2xl font-bold text-center mb-6">Latest Posts</h2>
-        <div className="gap-5 grid grid-cols-1 md:grid-cols-2 ">
-            {posts.map((post) => (
-                <LatestPostCard key={post.id} {...post} />
-            ))}
-        </div>
-        <div className={'text-center mt-8'}>
-            <Button variant={'outline'}>See more</Button>
-        </div>
-    </section>
-);
+const LatestPosts = async () => {
+
+    const latestpost = await apiRequest('/posts/latest')
+
+    return (
+        <section section className="py-8" >
+            <h2 className="text-2xl font-bold text-center mb-6">Latest Posts</h2>
+            <div className="gap-5 grid grid-cols-1 md:grid-cols-2 ">
+                {latestpost.map((post) => (
+                    <LatestPostCard key={post.id} {...post} />
+                ))}
+            </div>
+            <div className={'text-center mt-8'}>
+                <Button variant={'outline'}>See more</Button>
+            </div>
+        </section >
+    )
+};
 
 export default LatestPosts;
