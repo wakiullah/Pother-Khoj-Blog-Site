@@ -1,3 +1,4 @@
+import { compare } from "bcrypt";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -17,7 +18,7 @@ export async function POST(req) {
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
-        const isMatch = user.password === password;
+        const isMatch = await compare(password, user.password)
         if (!isMatch) {
             return NextResponse.json({ error: "Invalid password" }, { status: 401 });
         }

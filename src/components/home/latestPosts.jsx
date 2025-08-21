@@ -33,17 +33,17 @@ const LatestPosts = async () => {
     const latestpost = await apiRequest('/posts/latest')
 
     return (
-        <section section className="py-8" >
+        <div section className="py-8" >
             <h2 className="text-2xl font-bold text-center mb-6">Latest Posts</h2>
             <div className="gap-5 grid grid-cols-1 md:grid-cols-2 ">
                 {latestpost.map((post) => (
-                    <LatestPostCard key={post.id} {...post} />
+                    <LatestPostCard key={post._id} {...post} />
                 ))}
             </div>
             <div className={'text-center mt-8'}>
                 <Button variant={'outline'}>See more</Button>
             </div>
-        </section >
+        </div >
     )
 };
 

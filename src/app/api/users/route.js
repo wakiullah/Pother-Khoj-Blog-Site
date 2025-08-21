@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 const { dbConnect } = require('@/lib/db');
 import User from '@/model/User_Model';
+import { hash } from 'bcrypt';
 
 export async function GET(req, res) {
     await dbConnect();
@@ -19,11 +20,11 @@ export async function POST(req, res) {
     await dbConnect();
 
     const { name, email, password, confarmPassword } = await req.json();
-
     const existingUser = await User.findOne({ email });
-    // if (existingUser) {
-    //     return NextResponse.json({error: "User already exists"}, {status: 400});
-    // }
+
+    if (existingUser) {
+        return NextResponse.json({ error: "User already exists" }, { status: 400 });
+    }
 
     if (!name || !email || !password || !confarmPassword) {
         return NextResponse.json({ error: "All fields are required" }, { status: 400 });
@@ -36,12 +37,14 @@ export async function POST(req, res) {
         return NextResponse.json({ error: "Password must be at least 6 characters long" }, { status: 400 });
     }
 
+    const salt = 10
+    const hashedpassword = await hash(password, salt)
 
 
     const userData = {
         name,
         email,
-        password,
+        password: hashedpassword,
     }
 
     try {
