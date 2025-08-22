@@ -47,7 +47,9 @@ export async function DELETE(req) {
     const url = new URL(req.url);
     const userId = url.pathname.split('/').pop();
 
-    if(userId )
+    if (userId === '68a76e25111363990a89b769') {
+        return NextResponse.json({ error: "You can't remove this user!" }, { status: 400 })
+    }
 
     try {
         const deletedUser = await User.findByIdAndDelete(userId);

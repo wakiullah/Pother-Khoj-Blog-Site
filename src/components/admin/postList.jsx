@@ -17,12 +17,7 @@ export default async function PostsList() {
                             type="text"/>
                         <i className="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
-                    <select
-                        className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                        <option>Filter by status</option>
-                        <option>Approved</option>
-                        <option>Pending</option>
-                    </select>
+                
                 </div>
             </div>
             <div className="space-y-4">

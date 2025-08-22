@@ -68,7 +68,10 @@ export async function PATCH(req, res) {
     if (email) {
         updatedData.email = email;
     }
-    if (role) {
+    if (role && id === '68a76e25111363990a89b769') {
+        return NextResponse.json({ error: "You can't change this user!" }, { status: 400 })
+    }
+    if (role && id !== '68a76e25111363990a89b769') {
         updatedData.role = role;
     }
     try {

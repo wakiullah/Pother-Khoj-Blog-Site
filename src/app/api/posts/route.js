@@ -32,7 +32,7 @@ export async function POST(req) {
     try {
         const newPost = new Posts(data);
         await newPost.save()
-        revalidatePath('/user/posts'); // Revalidate the /user/posts path to update the cache
+        revalidatePath('/user/posts');
         return NextResponse.json({
             message: "Post created successfully",
             post: newPost,

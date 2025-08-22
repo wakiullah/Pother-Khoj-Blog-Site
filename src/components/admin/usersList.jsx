@@ -13,14 +13,7 @@ export default async function UsersList() {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="p-4 border-b border-gray-200 flex justify-between items-center">
                     <h3 className="font-semibold text-gray-800">All Users</h3>
-                    <div className="flex space-x-3">
-
-                        <Button variant={'outline'}
-                                className=" ">
-                            Filters
-                        </Button>
-
-                    </div>
+                    
                 </div>
 
                 <div className="overflow-x-auto">

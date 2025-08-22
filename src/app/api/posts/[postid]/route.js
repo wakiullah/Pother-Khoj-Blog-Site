@@ -6,7 +6,7 @@ export async function GET(req, { params }) {
     const { postid } = await params;
 
     try {
-        const post = await Posts.findOne({ _id: postid })
+        const post = await Posts.findOne({ _id: postid }).populate('author')
         if (!post) {
             return NextResponse.json({ error: "Post not found" }, { status: 404 });
         }

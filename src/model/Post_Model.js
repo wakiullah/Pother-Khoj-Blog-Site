@@ -45,7 +45,12 @@ const PostSchema = new mongoose.Schema({
     liked: {
         type: [String],
         default: []
-    }
+    },
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: []
+    }]
 })
 
 

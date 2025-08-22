@@ -2,7 +2,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { showSuccess } from "@/utils/toast";
+import { showError, showSuccess } from "@/utils/toast";
 import { apiRequest } from "@/utils/api";
 
 export default function ChangeRole({ user }) {
@@ -16,23 +16,19 @@ export default function ChangeRole({ user }) {
             if (res.message) {
                 showSuccess("user deleted!")
                 router.refresh();
+            } else {
+                showError(res.error)
             }
-            return;
+
         } else {
             setRole(value);
             try {
-                const response = await fetch(`/api/users/`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ role: newRole, id: user._id }),
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to update role');
+                const data = await apiRequest('/users', 'PATCH', { role: user.role === 'user' ? 'admin' : 'user', id: user._id })
+                if (data.message) {
+                    showSuccess("Role updated!")
+                } else {
+                    showError(data.error)
                 }
-
-                const data = await response.json();
                 router.refresh()
 
 
