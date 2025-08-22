@@ -1,4 +1,5 @@
-import {userVerify} from "@/utilitis/userVerify";
+import DashboardHighlights from "@/components/admin/dashboardHighlits";
+import { userVerify } from "@/utilitis/userVerify";
 
 export default async function Dashboard() {
     const user = await userVerify();
@@ -12,7 +13,9 @@ export default async function Dashboard() {
                 </h2>
                 <p className="text-gray-600">Email: {user?.email || "Not available"}</p>
             </div>
-            {/* ...rest of your dashboard */}
+            <div>
+                <DashboardHighlights />
+            </div>
         </div>
     );
 }
