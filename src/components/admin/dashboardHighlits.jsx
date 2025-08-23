@@ -1,7 +1,6 @@
 import { dbConnect } from "@/lib/db"
 import Posts from "@/model/Post_Model"
 import User from "@/model/User_Model"
-import { apiRequest } from "@/utils/api"
 import Link from "next/link"
 
 export default async function DashboardHighlights() {
