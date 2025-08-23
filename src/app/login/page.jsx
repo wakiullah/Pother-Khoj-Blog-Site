@@ -1,10 +1,10 @@
 'use client';
-import {Input} from '@/components/ui/input';
-import {Label} from '@/components/ui/label';
-import {Button} from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import Link from "next/link";
-import {useRouter} from 'next/navigation';
-import {toast} from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 
 export default function LoginPage() {
@@ -52,6 +52,14 @@ export default function LoginPage() {
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50">
             <form onSubmit={formSubmitHandler} className="w-full max-w-sm bg-white p-8 rounded shadow">
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mr-8 w-full">
+                    <h3 className="font-semibold text-blue-800 mb-2">Admin Credentials</h3>
+                    <div className="text-sm text-blue-700">
+                        <p><strong>Email:</strong> <span className=' select-all'>m.wakiullah1212@gmail.com</span></p>
+                        <p><strong>Password: </strong><span className='select-all'>wakiullah</span> </p>
+                    </div>
+                </div>
                 <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
                 <div className="mb-4">
                     <Label htmlFor="email">Email</Label>
@@ -79,7 +87,7 @@ export default function LoginPage() {
                 <div className="mt-4 text-center">
                     <p className="text-sm text-gray-600">
                         Don't have an account? <Link href="/signup" className="text-blue-500 hover:underline">Sign
-                        Up</Link>
+                            Up</Link>
                     </p>
                 </div>
             </form>
