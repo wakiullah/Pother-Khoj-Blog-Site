@@ -24,7 +24,7 @@ export default async function PostsList() {
             </div>
         </div>
         <div className="space-y-4">
-            {postsData?.map((singlepost) => (
+            {serializedPosts?.map((singlepost) => (
                 <AdminPostCard post={singlepost} key={singlepost._id} />
             ))}
 
