@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
     await dbConnect()
-
     const posts = await Posts.estimatedDocumentCount()
     const pendingPost = await Posts.countDocuments({ statue: 'pending' })
     const approvedPost = await Posts.countDocuments({ statue: 'approved' })

@@ -1,4 +1,3 @@
-import { getBaseUrl } from "@/utilitis/getBaseUrl";
 
 export const apiRequest = async (url, method = 'GET', data = null) => {
   const config = {
@@ -12,7 +11,7 @@ export const apiRequest = async (url, method = 'GET', data = null) => {
     config.body = JSON.stringify(data);
   }
   try {
-    const response = await fetch(`${getBaseUrl()}api${url}`, config);
+    const response = await fetch(`https://${process.env.VERCEL_URL}/api${url}`, config);
     return await response.json();
   } catch (err) {
     console.error('err', err)
