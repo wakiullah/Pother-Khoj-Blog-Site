@@ -1,3 +1,5 @@
+import { getBaseUrl } from "@/utilitis/getBaseUrl";
+
 export const apiRequest = async (url, method = 'GET', data = null) => {
   const config = {
     method,
@@ -10,11 +12,9 @@ export const apiRequest = async (url, method = 'GET', data = null) => {
     config.body = JSON.stringify(data);
   }
   try {
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${url}`, config);
-    console.log(response)
+    const response = await fetch(`${getBaseUrl()}api${url}`, config);
     return await response.json();
   } catch (err) {
-    console.err(err)
+    console.error('err', err)
   }
 };

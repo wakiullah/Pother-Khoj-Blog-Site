@@ -1,6 +1,6 @@
 export default async function getCurrentUser() {
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/loggeduser`, {
+    const response = await fetch(`/api/users/loggeduser`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

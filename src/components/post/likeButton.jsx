@@ -15,7 +15,7 @@ export default function LikeButton({ post }) {
         setLiked(!liked); // Toggle liked state
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${post._id}/like`, {
+            const response = await fetch(`/api/posts/${post._id}/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,19 +1,20 @@
 import Image from "next/image";
 import LikeButton from "@/components/post/likeButton";
 import SingleConmment from "@/components/post/singleConmment";
+import CommentForm from "@/components/post/commentForm";
+import { apiRequest } from "@/utils/api";
 
 export default async function PostDetails({ params }) {
     const { postid } = await params;
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${postid}`);
-    if (!response.ok) {
+    const post = await apiRequest(`/posts/${postid}`)
+    if (!post?._id) {
         return (
             <div className="container mx-auto p-4">
                 <h1 className="text-2xl font-bold mb-4">Post not found</h1>
             </div>
         );
     }
-    const post = await response.json();
     return (
         <div className={'max-w-5xl mx-auto p-4 '}>
             <div className="bg-white shadow-md rounded-lg p-6 mt-4 overflow-clip">
@@ -32,20 +33,7 @@ export default async function PostDetails({ params }) {
             <div className="mt-8">
                 <h3 className="text-xl font-semibold mb-4">Comments</h3>
 
-                {/* New comment form */}
-                <form className="mb-6">
-                    <textarea
-                        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        rows="3"
-                        placeholder="Write a comment..."
-                    />
-                    <button
-                        type="submit"
-                        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                    >
-                        Post Comment
-                    </button>
-                </form>
+                <CommentForm postId={postid} />
 
                 <div className="space-y-4">
                     {post.comments.length > 0 && post.comments.map((comment) => (

@@ -1,10 +1,3 @@
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import ChangeRole from "@/components/admin/changeRole";
 
 export default function SingleUserList({user, index}) {

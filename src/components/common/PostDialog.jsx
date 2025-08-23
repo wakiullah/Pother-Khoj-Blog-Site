@@ -19,7 +19,6 @@ import { apiRequest } from "@/utils/api";
 import { showSuccess } from "@/utils/toast";
 
 export default function PostDialog({ id, post = {}, method = '' }) {
-    console.log(method)
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter()
     const errorToast = () => toast.error("Error! Something went wrong!");
@@ -46,7 +45,6 @@ export default function PostDialog({ id, post = {}, method = '' }) {
                 }
             } else {
                 const postdata = await apiRequest('/posts', "POST", data)
-                console.log(postdata);
                 if (postdata.message) {
                     sucessToast()
                     router.push(`/posts/${postdata.post._id}`)

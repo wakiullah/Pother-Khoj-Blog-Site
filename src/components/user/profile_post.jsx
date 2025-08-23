@@ -18,7 +18,7 @@ function Profile_post({ post }) {
         if (e === 'delete') {
 
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`, {
+                const response = await fetch(`/api/posts/`, {
                     method: 'DELETE',
                     body: JSON.stringify({ id: post._id, author: post.author })
                 });

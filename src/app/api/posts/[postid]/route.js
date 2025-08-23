@@ -4,7 +4,6 @@ import Posts from "@/model/Post_Model";
 export async function GET(req, { params }) {
 
     const { postid } = await params;
-
     try {
         const post = await Posts.findOne({ _id: postid }).populate('author')
         if (!post) {

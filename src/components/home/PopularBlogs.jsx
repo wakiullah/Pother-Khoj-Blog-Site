@@ -10,7 +10,7 @@ async function PopularBlogs() {
             <h2 className="text-2xl font-bold text-center mb-8">Popular Posts</h2>
             <Suspense fallback={<div>Loading...</div>}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
-                    {posts.map((post, index) => (
+                    {posts?.map((post, index) => (
                         <PostCard key={index} post={post} />
                     )
                     )}

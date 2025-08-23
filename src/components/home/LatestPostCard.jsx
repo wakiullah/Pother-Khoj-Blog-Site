@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { sliceContent } from "@/utilitis/sliceContent";
+import Image from "next/image";
 import Link from "next/link";
 
 
@@ -10,10 +11,14 @@ function LatestPostCard({ image, category, title, author, date, content, _id }) 
     return (
         <Card className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="md:col-span-1 p-0">
-                <img
+                <Image
                     src={image}
                     alt={title}
-                    className="rounded-lg h-full w-auto object-cover"
+                    width={800}
+                    height={600}
+                    className="w-full h-full rounded-lg object-cover"
+                    priority={true}
+                    quality={75}
                 />
             </CardHeader>
             <CardContent className="md:col-span-2 align-middle flex justify-between flex-col">
@@ -31,7 +36,7 @@ function LatestPostCard({ image, category, title, author, date, content, _id }) 
                         {slicedContent}
                     </p>
                 </div>
-                <div>
+                <div className="pt-3">
                     <Button variant="outline">
                         <Link href={`/posts/${_id}`}>Read More</Link>                    </Button>
                 </div>

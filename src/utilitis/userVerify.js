@@ -1,8 +1,5 @@
-import { cookies } from 'next/headers';
 import { getTokenData } from "@/utilitis/getTokenData";
-
-const jose = require('jose');
-
+import { jwtVerify } from "jose";
 
 export async function userVerify() {
 
@@ -12,7 +9,7 @@ export async function userVerify() {
 
     } else {
         const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-        const { payload } = await jose.jwtVerify(token, secret);
+        const { payload } = await jwtVerify(token, secret);
         const data = {
             username: payload.username,
             email: payload.email,

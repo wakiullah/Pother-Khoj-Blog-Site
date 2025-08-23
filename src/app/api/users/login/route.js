@@ -1,10 +1,9 @@
+import { dbConnect } from "@/lib/db";
+import User from "@/model/User_Model";
 import { compare } from "bcrypt";
+import { sign } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-
-const { dbConnect } = require('@/lib/db');
-const jwt = require('jsonwebtoken')
-const User = require('@/model/User_Model');
 
 
 export async function POST(req) {
@@ -22,7 +21,7 @@ export async function POST(req) {
         if (!isMatch) {
             return NextResponse.json({ error: "Invalid password" }, { status: 401 });
         }
-        const token = jwt.sign(
+        const token = sign(
             { username: user.name, email: user.email, id: user._id, role: user.role },
             process.env.JWT_SECRET || 'your_jwt_secret',
             { expiresIn: process.env.JWT_EXPIRATION || '7d' }

@@ -13,7 +13,7 @@ const LatestPosts = async () => {
         <div className="py-8" >
             <h2 className="text-2xl font-bold text-center mb-6">Latest Posts</h2>
             <div className="gap-5 grid grid-cols-1 md:grid-cols-2 ">
-                {latestpost.map((post) => (
+                {latestpost?.map((post) => (
                     <LatestPostCard key={post._id} {...post} />
                 ))}
             </div>

@@ -1,7 +1,21 @@
 import { NextResponse } from "next/server";
 import Posts from '@/model/Post_Model';
+import { dbConnect } from "@/lib/db";
+
+
+export async function GET(req, { params }) {
+    await dbConnect()
+    const postId = params.postid;
+
+    const post = await Posts.findById(postId).select('likes liked');
+    return NextResponse.json({
+        likes: post.likes,
+        liked: post.liked
+    }, { status: 200 });
+}
 
 export async function POST(req, { params }) {
+    await dbConnect()
     const { userId, isAlreadyLiked } = await req.json();
     if (!userId) {
         return NextResponse.json({ error: "Missing userId" }, { status: 400 });
@@ -36,13 +50,3 @@ export async function POST(req, { params }) {
     }, { status: 200 });
 }
 
-
-export async function GET(req, { params }) {
-    const postId = params.postid;
-
-    const post = await Posts.findById(postId).select('likes liked');
-    return NextResponse.json({
-        likes: post.likes,
-        liked: post.liked
-    }, { status: 200 });
-}

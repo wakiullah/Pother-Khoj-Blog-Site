@@ -1,8 +1,8 @@
-const { dbConnect } = require('@/lib/db');
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { userVerify } from "@/utilitis/userVerify";
 import Posts from "@/model/Post_Model";
+import { dbConnect } from "@/lib/db";
 
 
 export async function GET(req) {

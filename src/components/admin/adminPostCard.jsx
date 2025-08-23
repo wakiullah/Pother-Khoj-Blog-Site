@@ -16,7 +16,7 @@ export default function AdminPostCard({ post }) {
 
     const postAppreveHandler = async () => {
         setClicked(true);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`, {
+        const response = await fetch(`/api/posts/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
-const { dbConnect } = require('@/lib/db');
 import User from '@/model/User_Model';
 import { hash } from 'bcrypt';
+import { dbConnect } from '@/lib/db';
 
 export async function GET(req, res) {
     await dbConnect();
@@ -39,7 +39,6 @@ export async function POST(req, res) {
 
     const salt = 10
     const hashedpassword = await hash(password, salt)
-
 
     const userData = {
         name,

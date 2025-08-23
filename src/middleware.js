@@ -1,6 +1,6 @@
 import {userVerify} from "@/utilitis/userVerify";
+import { NextResponse } from "next/server";
 
-const {NextResponse} = require('next/server');
 
 export async function middleware(request) {
     const {pathname} = new URL(request.url);

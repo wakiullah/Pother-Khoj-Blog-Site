@@ -10,46 +10,53 @@ export default function ChangeRole({ user }) {
     const router = useRouter();
 
     const handleRoleChange = async (value) => {
+        // Log the clicked value to debug
+        console.log('Selected value:', value);
+
         if (value === 'delete') {
-            const res = await apiRequest(`/users/${user._id}`, 'DELETE')
-            console.log(res)
-            if (res.message) {
-                showSuccess("user deleted!")
+            console.log(`/users/${user._id}`)
+            const res = await apiRequest(`/users/${user._id}`, 'DELETE');
+            if (res?.message) {
+                showSuccess("User deleted!");
                 router.refresh();
             } else {
-                showError(res.error)
+                showError(res.error);
             }
-
         } else {
+            // This is the crucial part: update the state
             setRole(value);
-            try {
-                const data = await apiRequest('/users', 'PATCH', { role: user.role === 'user' ? 'admin' : 'user', id: user._id })
-                if (data.message) {
-                    showSuccess("Role updated!")
-                } else {
-                    showError(data.error)
-                }
-                router.refresh()
 
+            try {
+                const data = await apiRequest('/users', 'PATCH', {
+                    role: value,
+                    id: user._id
+                });
+
+                if (data.message) {
+                    showSuccess("Role updated!");
+                } else {
+                    showError(data.error);
+                }
+                router.refresh();
 
             } catch (error) {
                 console.error('Error updating role:', error);
+                showError('Failed to update role');
             }
         }
-
-    }
+    };
 
     return (
         <Select value={role} onValueChange={handleRoleChange}>
             <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="Change Role">Change Role </SelectValue>
+                <SelectValue placeholder="Change Role">{role}</SelectValue>
             </SelectTrigger>
             <SelectContent>
-                {user.role !== 'admin' ? <SelectItem value="admin">Make Admin</SelectItem> :
-                    <SelectItem value="user">Make User</SelectItem>}
+                {user.role !== 'admin' ?
+                    <SelectItem value="admin">Make Admin</SelectItem>
+                    : <SelectItem value="user">Make User</SelectItem>}
                 <SelectItem value="delete">Delete User</SelectItem>
             </SelectContent>
-
         </Select>
-    )
+    );
 }
