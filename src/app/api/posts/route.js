@@ -28,6 +28,8 @@ export async function POST(req) {
         tags
 
     }
+    console.log(authUser, id)
+    if (authUser.id !== id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
     try {
         const newPost = new Posts(data);

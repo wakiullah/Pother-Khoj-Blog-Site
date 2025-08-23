@@ -15,23 +15,39 @@ export default function ChangeRole({ user }) {
 
         if (value === 'delete') {
             console.log(`/users/${user._id}`)
-            const res = await apiRequest(`/users/${user._id}`, 'DELETE');
-            if (res?.message) {
+            const res = await fetch(`/api/users/${user._id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            const isDeleted = await res.json()
+
+
+            if (isDeleted?.message) {
                 showSuccess("User deleted!");
                 router.refresh();
             } else {
-                showError(res.error);
+                showError(isDeleted.error);
             }
         } else {
             // This is the crucial part: update the state
             setRole(value);
 
             try {
-                const data = await apiRequest('/users', 'PATCH', {
-                    role: value,
-                    id: user._id
-                });
+                const res = await fetch('/api/users', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        id: user._id,
+                        role: value
+                    })
+                })
 
+                const data = await res.json()
+                console.log(data)
                 if (data.message) {
                     showSuccess("Role updated!");
                 } else {

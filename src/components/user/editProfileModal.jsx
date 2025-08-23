@@ -9,14 +9,14 @@ import {
     DialogTitle,
     DialogTrigger
 } from '../ui/dialog'
-import {Button} from '../ui/button'
-import {Label} from '../ui/label'
-import {Input} from '../ui/input'
-import {toast} from "react-toastify";
-import {useState} from "react";
-import {useRouter} from "next/navigation";
+import { Button } from '../ui/button'
+import { Label } from '../ui/label'
+import { Input } from '../ui/input'
+import { toast } from "react-toastify";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-function EditProfileModal({name, email, id}) {
+function EditProfileModal({ name, email, id }) {
     const sucessToast = () => toast.success("Profile updated!");
     const errorToast = () => toast.error("Something went wrong!");
     const [isOpen, setIsOpen] = useState(false);
@@ -38,8 +38,10 @@ function EditProfileModal({name, email, id}) {
             body: JSON.stringify(data),
         });
 
+        const isUpdate = await response.json()
+        console.log(isUpdate);
+
         if (response.ok) {
-            const result = await response.json();
             sucessToast();
             setIsOpen(false);
             router.refresh()
@@ -67,11 +69,11 @@ function EditProfileModal({name, email, id}) {
                     <div className="grid gap-4">
                         <div className="grid gap-3">
                             <Label htmlFor="name-1">Name</Label>
-                            <Input id="name-1" name="name" defaultValue={name}/>
+                            <Input id="name-1" name="name" defaultValue={name} />
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="username-1">Email</Label>
-                            <Input type="email" id="username-1" name="email" defaultValue={email}/>
+                            <Input type="email" id="username-1" name="email" defaultValue={email} />
                         </div>
                     </div>
                     <DialogFooter>

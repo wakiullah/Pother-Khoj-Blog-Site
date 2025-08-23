@@ -11,7 +11,7 @@ export const apiRequest = async (url, method = 'GET', data = null) => {
     config.body = JSON.stringify(data);
   }
   try {
-    const response = await fetch(`${process.env.LOCALINV}/api${url}`, config);
+    const response = await fetch(`/api${url}`, config);
     return await response.json();
   } catch (err) {
     console.error('err', err)

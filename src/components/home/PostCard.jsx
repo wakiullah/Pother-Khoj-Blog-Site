@@ -2,9 +2,11 @@ import React from 'react'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import Image from 'next/image'
 import Link from 'next/link';
+import { getDate } from '@/utilitis/getDate';
 
 function PostCard({ post }) {
-    const { image, title, content, author, date } = post;
+    const { image, title, content, author, createdAt } = post;
+    const { date } = getDate(createdAt)
     const firse10words = content.split(' ').slice(0, 15).join(' ') + '...';
     return (
         <Card className='pt-0'>
@@ -13,7 +15,7 @@ function PostCard({ post }) {
             </CardHeader>
             <CardContent>
                 <h2 className="text-lg font-semibold">{title}</h2>
-                <p>By {author}/ {date}</p>
+                <p className='mb-3'>By {author.name} / {date}</p>
                 <p className="text-sm text-gray-600">{firse10words}</p>
             </CardContent>
             <CardFooter>

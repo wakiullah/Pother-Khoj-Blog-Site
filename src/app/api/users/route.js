@@ -78,7 +78,7 @@ export async function PATCH(req, res) {
         if (!updatedUser) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
-        return NextResponse.json(updatedUser, { status: 200 });
+        return NextResponse.json({updatedUser, message: "Sucess"}, { status: 200 });
     } catch (error) {
         console.error("Error updating user:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

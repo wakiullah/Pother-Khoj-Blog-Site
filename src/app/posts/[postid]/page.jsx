@@ -3,11 +3,14 @@ import LikeButton from "@/components/post/likeButton";
 import SingleConmment from "@/components/post/singleConmment";
 import CommentForm from "@/components/post/commentForm";
 import { apiRequest } from "@/utils/api";
+import { dbConnect } from "@/lib/db";
+import Posts from "@/model/Post_Model";
 
 export default async function PostDetails({ params }) {
     const { postid } = await params;
-
-    const post = await apiRequest(`/posts/${postid}`)
+    await dbConnect()
+    const mainpost = await Posts.findOne({ _id: postid }).populate('author').lean()
+    const post = JSON.parse(JSON.stringify(mainpost));
     if (!post?._id) {
         return (
             <div className="container mx-auto p-4">
@@ -29,14 +32,14 @@ export default async function PostDetails({ params }) {
                     <LikeButton post={post} />
                 </div>
             </div>
-            {/* //add a comment box section for new comment and with 2 comment by a user */}
+
             <div className="mt-8">
                 <h3 className="text-xl font-semibold mb-4">Comments</h3>
 
                 <CommentForm postId={postid} />
 
                 <div className="space-y-4">
-                    {post.comments.length > 0 && post.comments.map((comment) => (
+                    {post?.comments?.map((comment) => (
                         <SingleConmment />
                     ))}
                 </div>

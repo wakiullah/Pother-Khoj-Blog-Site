@@ -17,6 +17,7 @@ export async function GET(req, { params }) {
 export async function POST(req, { params }) {
     await dbConnect()
     const { userId, isAlreadyLiked } = await req.json();
+    console.log(userId, isAlreadyLiked);
     if (!userId) {
         return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
