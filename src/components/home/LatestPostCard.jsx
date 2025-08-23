@@ -7,7 +7,7 @@ import Link from "next/link";
 
 function LatestPostCard({ image, category, title, author, date, content, _id }) {
     const slicedContent = sliceContent(content)
-
+    console.log("author", author)
     return (
         <Card className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="md:col-span-1 p-0">

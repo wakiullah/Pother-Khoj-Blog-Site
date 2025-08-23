@@ -1,9 +1,14 @@
-
-import { apiRequest } from "@/utils/api";
 import HeroCard from "./HeroCard";
+import { dbConnect } from "@/lib/db";
+import Posts from "@/model/Post_Model";
 
 export default async function Hero() {
-    const data = await apiRequest('/posts/hero')
+    await dbConnect()
+    const data = await Posts.aggregate([
+        { $match: { statue: "approved" } },
+        { $sample: { size: 5 } }
+    ]);
+
     return (
         <section className="container px-4 py-8 mx-auto">
             <div className="grid grid-cols-1 gap-4 sm:gap-6 

@@ -1,21 +1,22 @@
 import React from "react";
 import LatestPostCard from "./LatestPostCard";
 import { Button } from "@/components/ui/button";
-import { apiRequest } from "@/utils/api";
 import Link from "next/link";
+import { dbConnect } from "@/lib/db";
+import Posts from "@/model/Post_Model";
 
 
 const LatestPosts = async () => {
-
-    const latestpost = await apiRequest('/posts/latest')
+    await dbConnect()
+    const dblatestPosts = await Posts.find({ statue: 'approved' }).lean().sort({ createdAt: -1 })
 
     return (
         <div className="py-8" >
             <h2 className="text-2xl font-bold text-center mb-6">Latest Posts</h2>
             <div className="gap-5 grid grid-cols-1 md:grid-cols-2 ">
-                {latestpost?.map((post) => (
-                    <LatestPostCard key={post._id} {...post} />
-                ))}
+                {dblatestPosts?.map((post) => {
+                    return <LatestPostCard key={post._id} {...post} />
+                })}
             </div>
             <div className={'text-center mt-8'}>
                 <Button variant={'outline'}>

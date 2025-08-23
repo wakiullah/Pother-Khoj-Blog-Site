@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
 import SingleUserList from "@/components/admin/singleUserList";
 import { apiRequest } from "@/utils/api";
+import User from "@/model/User_Model";
+import { dbConnect } from "@/lib/db";
 
 export default async function UsersList() {
-
-    const usersData = await apiRequest('/users')
+    await dbConnect()
+    const users = await User.find({}).lean();
+    const serializedUsers = JSON.parse(JSON.stringify(users));
 
     return (
         <div className="p-6">
@@ -36,7 +39,7 @@ export default async function UsersList() {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {usersData && usersData.map((user, i) => (
+                            {serializedUsers.map((user, i) => (
                                 <SingleUserList user={user} key={user._id} index={i} />
                             ))}
                         </tbody>

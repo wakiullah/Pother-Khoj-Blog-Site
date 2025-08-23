@@ -1,10 +1,13 @@
-import PostCard from "@/components/home/PostCard";
 import AdminPostCard from "@/components/admin/adminPostCard";
-import { apiRequest } from "@/utils/api";
+import { dbConnect } from "@/lib/db";
+import Posts from "@/model/Post_Model";
 
 export default async function PostsList() {
 
-    const postsData = await apiRequest('/posts')
+    await dbConnect();
+    const postsData = await Posts.find({}).lean().sort({ createdAt: -1 })
+    const serializedPosts = JSON.parse(JSON.stringify(postsData));
+
 
     return (<div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -21,8 +24,8 @@ export default async function PostsList() {
             </div>
         </div>
         <div className="space-y-4">
-            {postsData && postsData.posts.map((post) => (
-                <AdminPostCard post={post} key={post._id} />
+            {postsData?.map((singlepost) => (
+                <AdminPostCard post={singlepost} key={singlepost._id} />
             ))}
 
         </div>
