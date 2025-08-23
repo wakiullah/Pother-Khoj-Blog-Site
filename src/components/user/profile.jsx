@@ -1,12 +1,13 @@
 import EditProfileModal from './editProfileModal';
-import { Button } from '../ui/button';
-import Profile_post from './profile_post';
 import PostDialog from "@/components/common/PostDialog";
 import AllProfilePosts from "@/components/common/AllProfilePosts";
-import { apiRequest } from '@/utils/api';
+import { dbConnect } from '@/lib/db';
+import User from '@/model/User_Model';
 
 export default async function Profile({ userDetail }) {
-    const user = await apiRequest(`/users/${userDetail.id}`)
+    await dbConnect()
+    const user = await User.findById(userDetail.id).lean();
+
     return (
         <div
             className="max-w-lg mx-auto mt-20 p-8 bg-white rounded-xl shadow-lg flex flex-col items-center font-sans border border-gray-200">

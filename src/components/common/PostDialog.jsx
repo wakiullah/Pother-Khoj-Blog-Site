@@ -82,7 +82,7 @@ export default function PostDialog({ id, post = {}, method = '' }) {
                     </div>
                     <div>
                         <label htmlFor="content">Content</label>
-                        <Textarea defaultValue={post?.content} id="content" name="content" rows="4" required className={'max-h-32'}/>
+                        <Textarea defaultValue={post?.content} id="content" name="content" rows="4" required className={'max-h-32'} />
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
