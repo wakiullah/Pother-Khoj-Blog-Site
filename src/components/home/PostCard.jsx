@@ -6,6 +6,7 @@ import { getDate } from '@/utilitis/getDate';
 
 function PostCard({ post }) {
     const { image, title, content, author, createdAt } = post;
+    console.log(author)
     const { date } = getDate(createdAt)
     const firse10words = content.split(' ').slice(0, 15).join(' ') + '...';
     return (
@@ -15,7 +16,7 @@ function PostCard({ post }) {
             </CardHeader>
             <CardContent>
                 <h2 className="text-lg font-semibold">{title}</h2>
-                <p className='mb-3'>By {author.name} / {date}</p>
+                <p className='mb-3'>By {author ? author.name : 'Unknown'} / {date}</p>
                 <p className="text-sm text-gray-600">{firse10words}</p>
             </CardContent>
             <CardFooter>

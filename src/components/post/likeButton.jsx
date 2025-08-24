@@ -1,23 +1,31 @@
 'use client';
-import { set } from "mongoose";
-import { useState } from "react";
+import getCurrentUser from "@/utilitis/getCurrentUser";
+import { useEffect, useState } from "react";
 
 export default function LikeButton({ post }) {
     const [likes, setLikes] = useState(post.likes || 0);
     const [isLiking, setIsLiking] = useState(false);
-    const [liked, setLiked] = useState(post.liked.includes(post.author._id));
+    const [loggedUser, setLoggedUser] = useState()
+    const [liked, setLiked] = useState(post.liked.includes(loggedUser?.id));
 
+    useEffect(() => {
+        async function fetchData() {
+            const user = await getCurrentUser();
+            setLoggedUser(user);
+        }
+
+        fetchData();
+    }, []);
     async function postLikeHandler() {
         setIsLiking(true);
         setLikes(likes + (liked ? -1 : 1));
-        console.log('like', liked)
         try {
             const response = await fetch(`/api/posts/${post._id}/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userId: post.author._id, isAlreadyLiked: liked })
+                body: JSON.stringify({ userId: loggedUser?.id , isAlreadyLiked: liked })
             });
             const data = await response.json();
             if (response.ok) {

@@ -1,6 +1,8 @@
 import PostCard from "@/components/home/PostCard";
 import { dbConnect } from "@/lib/db";
 import Posts from "@/model/Post_Model";
+import User from "@/model/User_Model";
+
 
 export default async function PostsPage() {
 
@@ -12,7 +14,6 @@ export default async function PostsPage() {
 
     // Convert MongoDB objects to plain objects
     const serializedPosts = JSON.parse(JSON.stringify(posts));
-    console.log('serial post', serializedPosts)
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Posts</h1>

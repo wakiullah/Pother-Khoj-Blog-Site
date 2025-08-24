@@ -2,15 +2,16 @@ import Image from "next/image";
 import LikeButton from "@/components/post/likeButton";
 import SingleConmment from "@/components/post/singleConmment";
 import CommentForm from "@/components/post/commentForm";
-import { apiRequest } from "@/utils/api";
 import { dbConnect } from "@/lib/db";
 import Posts from "@/model/Post_Model";
+import User from "@/model/User_Model";
 
 export default async function PostDetails({ params }) {
     const { postid } = await params;
     await dbConnect()
     const mainpost = await Posts.findOne({ _id: postid }).populate('author').lean()
     const post = JSON.parse(JSON.stringify(mainpost));
+    console.log(post);
     if (!post?._id) {
         return (
             <div className="container mx-auto p-4">
@@ -26,7 +27,7 @@ export default async function PostDetails({ params }) {
                 </div>
                 <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
                 <p className="text-gray-600 mb-4">{post.content}</p>
-                <p className="text-gray-500">Author: {post.author.name}</p>
+                <p className="text-gray-500">Author: {post.author ? post.author.name : 'Unknown'}</p>
                 <p className="text-gray-500">Published on: {new Date(post.createdAt).toLocaleDateString()}</p>
                 <div className={'mt-4'}>
                     <LikeButton post={post} />
