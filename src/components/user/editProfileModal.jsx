@@ -39,7 +39,6 @@ function EditProfileModal({ name, email, id }) {
         });
 
         const isUpdate = await response.json()
-        console.log(isUpdate);
 
         if (response.ok) {
             sucessToast();

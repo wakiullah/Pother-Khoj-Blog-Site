@@ -1,7 +1,6 @@
 export function getBaseUrl() {
     if (typeof window !== 'undefined') {
         // Client-side: use current origin
-        console.log(window.location.origin + '/')
         return window.location.origin + '/';
     }
 

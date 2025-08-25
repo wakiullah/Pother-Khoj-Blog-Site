@@ -17,16 +17,16 @@ export async function GET(req, { params }) {
 export async function POST(req, { params }) {
     await dbConnect()
     const { userId, isAlreadyLiked } = await req.json();
+
     if (!userId) {
         return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
     const postId = params.postid;
-
     let update;
     if (isAlreadyLiked) {
         update = {
             $inc: { likes: -1 },
-            $pull: { liked: userId }
+            $pull: { liked: userId + '' }
         };
     } else {
         update = {
@@ -34,6 +34,7 @@ export async function POST(req, { params }) {
             $addToSet: { liked: userId }
         };
     }
+    console.log(update);
 
     const updatedPost = await Posts.findByIdAndUpdate(
         postId,
@@ -46,7 +47,8 @@ export async function POST(req, { params }) {
     }
     return NextResponse.json({
         message: "Post liked successfully",
-        likes: updatedPost.likes
+        likes: updatedPost.likes,
+        liked: updatedPost.liked
     }, { status: 200 });
 }
 

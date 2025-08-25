@@ -6,7 +6,6 @@ import { getDate } from '@/utilitis/getDate';
 
 function PostCard({ post }) {
     const { image, title, content, author, createdAt } = post;
-    console.log(author)
     const { date } = getDate(createdAt)
     const firse10words = content.split(' ').slice(0, 15).join(' ') + '...';
     return (

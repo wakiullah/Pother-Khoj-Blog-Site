@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { getDate } from "@/utilitis/getDate";
 import { sliceContent } from "@/utilitis/sliceContent";
 import Image from "next/image";
 import Link from "next/link";
 
 
-function LatestPostCard({ image, category, title, author, date, content, _id }) {
+function LatestPostCard({ post }) {
+    const { _id, image, title, content, author, createdAt, category } = post;
+    const { date } = getDate(createdAt)
     const slicedContent = sliceContent(content)
     return (
         <Card className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -29,7 +32,7 @@ function LatestPostCard({ image, category, title, author, date, content, _id }) 
                         {title}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                        By {author} / {date}
+                        By {author?.name || 'Unknown'} / {date}
                     </p>
                     <p className="text-foreground">
                         {slicedContent}

@@ -11,10 +11,8 @@ export default function ChangeRole({ user }) {
 
     const handleRoleChange = async (value) => {
         // Log the clicked value to debug
-        console.log('Selected value:', value);
 
         if (value === 'delete') {
-            console.log(`/users/${user._id}`)
             const res = await fetch(`/api/users/${user._id}`, {
                 method: 'DELETE',
                 headers: {

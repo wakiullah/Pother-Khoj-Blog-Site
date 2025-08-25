@@ -1,43 +1,57 @@
 'use client';
 import getCurrentUser from "@/utilitis/getCurrentUser";
+import { showError } from "@/utils/toast";
+import { set } from "mongoose";
 import { useEffect, useState } from "react";
 
 export default function LikeButton({ post }) {
     const [likes, setLikes] = useState(post.likes || 0);
     const [isLiking, setIsLiking] = useState(false);
-    const [loggedUser, setLoggedUser] = useState()
+    const [loggedUser, setLoggedUser] = useState(null)
     const [liked, setLiked] = useState(post.liked.includes(loggedUser?.id));
+    console.log(post)
 
     useEffect(() => {
         async function fetchData() {
             const user = await getCurrentUser();
             setLoggedUser(user);
+            setLiked(post.liked.includes(user?._id));
         }
 
         fetchData();
-    }, []);
+    }, [post.liked]);
+
     async function postLikeHandler() {
-        setIsLiking(true);
+
+        if (loggedUser === null) {
+            return showError('Please login to like this post')
+        }
+
         setLikes(likes + (liked ? -1 : 1));
+        setIsLiking(true);
+        setLiked(prev => !prev);
         try {
             const response = await fetch(`/api/posts/${post._id}/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userId: loggedUser?.id , isAlreadyLiked: liked })
+                body: JSON.stringify({
+                    userId: loggedUser._id,
+                    isAlreadyLiked: liked
+                })
             });
             const data = await response.json();
             if (response.ok) {
-                setLiked(prev => !prev)
-                setLikes(data.likes);
+                console.log(data)
+                // setLiked(data.liked.includes(user?.id));
             } else {
-                setLikes(likes); // Revert on error
-                console.log('error')
+                setLikes(prev => prev - 1);
+                setLiked(prev => !prev)
             }
         } catch (e) {
-            setLikes(likes); // Revert on error
-            setLiked(!liked); // Revert liked state
+            setLikes(likes);
+            setLiked(!liked);
         } finally {
             setIsLiking(false);
         }

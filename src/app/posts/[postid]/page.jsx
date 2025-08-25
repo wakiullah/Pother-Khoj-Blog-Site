@@ -5,13 +5,27 @@ import CommentForm from "@/components/post/commentForm";
 import { dbConnect } from "@/lib/db";
 import Posts from "@/model/Post_Model";
 import User from "@/model/User_Model";
+import Comment from "@/model/comment_Model";
 
 export default async function PostDetails({ params }) {
+    await dbConnect();
+
     const { postid } = await params;
     await dbConnect()
     const mainpost = await Posts.findOne({ _id: postid }).populate('author').lean()
     const post = JSON.parse(JSON.stringify(mainpost));
-    console.log(post);
+
+
+    const countComments = await Comment.countDocuments({ post: postid });
+    const dbComments = await Comment.find({ post: postid })
+        .populate('user')
+        .sort({ createdAt: -1 })
+        .lean();
+    const comments = JSON.parse(JSON.stringify(dbComments));
+
+
+
+
     if (!post?._id) {
         return (
             <div className="container mx-auto p-4">
@@ -35,13 +49,13 @@ export default async function PostDetails({ params }) {
             </div>
 
             <div className="mt-8">
-                <h3 className="text-xl font-semibold mb-4">Comments</h3>
+                <h3 className="text-xl font-semibold mb-4">Comments {`(${countComments})`}</h3>
 
                 <CommentForm postId={postid} />
 
                 <div className="space-y-4">
-                    {post?.comments?.map((comment) => (
-                        <SingleConmment />
+                    {comments?.map((comment) => (
+                        <SingleConmment key={comment._id} comment={comment} />
                     ))}
                 </div>
             </div>

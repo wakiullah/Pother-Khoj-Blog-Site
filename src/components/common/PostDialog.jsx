@@ -23,7 +23,6 @@ export default function PostDialog({ id, post = {}, method = '' }) {
     const router = useRouter()
     const errorToast = () => toast.error("Error! Something went wrong!");
     const sucessToast = () => toast.success("post created successfully!");
-    console.log(id)
     const createPostHandler = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);

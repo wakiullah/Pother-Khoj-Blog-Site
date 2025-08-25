@@ -12,6 +12,7 @@ export async function POST(req) {
             content,
             post
         });
+        await newComment.save();
         return NextResponse.json({ message: "Comment created successfully", comment: newComment }, { status: 201 });
 
     } catch (error) {
@@ -22,10 +23,9 @@ export async function POST(req) {
 
 export async function GET(req, { params }) {
     await dbConnect();
-    const pathname = new URL(req.url)
-    const id = pathname.pathname.split('/').pop();
+    const postId = await params.postid;
     try {
-        const comments = await Comment.find({ post: id }).populate('user').populate('post');
+        const comments = await Comment.find({ post: postId })
         return NextResponse.json(comments, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });

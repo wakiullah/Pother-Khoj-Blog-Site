@@ -1,22 +1,30 @@
 import { dbConnect } from "@/lib/db";
 import { userVerify } from "@/utilitis/userVerify";
+import User from "@/model/User_Model";
 
 export async function GET() {
-    await dbConnect()
-    const user = await userVerify()
+    try {
+        await dbConnect();
+        const user = await userVerify();
 
-    if (!user) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+        if (!user) {
+            return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+        }
+
+        const userData = await User.findById(user.id).select('-password').lean();
+
+        if (!userData) {
+            return new Response(JSON.stringify({ error: "User not found" }), { status: 404 });
+        }
+
+        return new Response(JSON.stringify(userData), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    } catch (error) {
+        console.error('Get logged user error:', error);
+        return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
     }
-    const userResponse = await fetch(`api/users/${user.id}`)
-    if (!userResponse.ok) {
-        return new Response(JSON.stringify({ error: "User not found" }), { status: 404 });
-    }
-    const userData = await userResponse.json();
-    return new Response(JSON.stringify(userData), {
-        status: 200,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
 }
