@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export async function middleware(request) {
     const {pathname} = new URL(request.url);
 
-    // Protect /dashboard, /dashboard/*, /user/*
     const protectedPaths = [
         /^\/dashboard(\/.*)?$/,
         /^\/user(\/.*)?$/
