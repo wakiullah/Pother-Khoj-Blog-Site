@@ -1,7 +1,6 @@
 import {userVerify} from "@/utilitis/userVerify";
 import { NextResponse } from "next/server";
 
-
 export async function middleware(request) {
     const {pathname} = new URL(request.url);
 
@@ -28,7 +27,6 @@ export async function middleware(request) {
     if (user && user.role !== 'admin' && pathname.startsWith('/dashboard')) {
         return NextResponse.redirect(new URL('/user/profile', request.url));
     }
-
 
     try {
         if (user && user.username) {
