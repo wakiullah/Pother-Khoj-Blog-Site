@@ -1,9 +1,10 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { getDate } from "@/utilitis/getDate";
 import { sliceContent } from "@/utilitis/sliceContent";
-import Image from "next/image";
-import Link from "next/link";
 
 function LatestPostCard({ post }) {
     const { _id, image, title, content, author, createdAt, category } = post;
